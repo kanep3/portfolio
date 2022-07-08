@@ -4,6 +4,8 @@ import {MdOutlineEmail} from 'react-icons/md'
 import {BsLinkedin} from 'react-icons/bs'
 import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2'
+
 
 
 const Contact = () => {
@@ -13,9 +15,35 @@ const Contact = () => {
     e.preventDefault();
 
     emailjs.sendForm('service_t44ohgn', 'template_y9krcif', form.current, 'XghR9crm_E23-f0z2')
-
+    
     e.target.reset()
   };
+
+  function confirmation() {
+    let timerInterval
+    Swal.fire({
+      title: "<h5 style='color:rgb(255, 69, 58)'> e-mail delivered </h5>",
+      html: "<h5 style='color:rgb(255, 69, 58)'>i will close in <b></b> milliseconds.</h5>",
+      timer: 2000,
+      timerProgressBar: true,
+      background: 'rgb(28, 28, 30)',
+      didOpen: () => {
+        Swal.showLoading()
+        const b = Swal.getHtmlContainer().querySelector('b')
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft()
+        }, 100)
+      },
+      willClose: () => {
+        clearInterval(timerInterval)
+      }
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer')
+      }
+    })
+  }
 
   return (
     <section id='contact'>
@@ -42,7 +70,7 @@ const Contact = () => {
           <input type="text" name='name' placeholder='name' required />
           <input type="email" name='email' placeholder='e-mail' required />
           <textarea name="message" rows="7" placeholder='message to deliver' required ></textarea>
-          <button type='submit' className='btn btn-primary'>send</button>
+          <button onClick={confirmation} type='submit' className='btn btn-primary'>send</button>
         </form>
       </div>
     </section>
