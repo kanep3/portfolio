@@ -20,28 +20,11 @@ const Contact = () => {
   };
 
   function confirmation() {
-    let timerInterval
     Swal.fire({
+      icon: 'success',
       title: "<h5 style='color:rgb(255, 69, 58)'> e-mail delivered </h5>",
-      html: "<h5 style='color:rgb(255, 69, 58)'>i will close in <b></b> milliseconds.</h5>",
-      timer: 2000,
-      timerProgressBar: true,
-      background: 'rgb(28, 28, 30)',
-      didOpen: () => {
-        Swal.showLoading()
-        const b = Swal.getHtmlContainer().querySelector('b')
-        timerInterval = setInterval(() => {
-          b.textContent = Swal.getTimerLeft()
-        }, 100)
-      },
-      willClose: () => {
-        clearInterval(timerInterval)
-      }
-    }).then((result) => {
-      /* Read more about handling dismissals below */
-      if (result.dismiss === Swal.DismissReason.timer) {
-        console.log('I was closed by the timer')
-      }
+      background: 'rgb(28, 28, 30)'
+
     })
   }
 
